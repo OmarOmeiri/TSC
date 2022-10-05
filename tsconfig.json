@@ -1,0 +1,62 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "module": "CommonJS",
+    "lib": [
+        "esnext",
+        "dom"
+    ],
+    "allowJs": false,
+    "sourceMap": true,
+    "outDir": "build",
+    "rootDir": "./",
+    "composite": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "useUnknownInCatchVariables": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "traceResolution": false,
+    "noFallthroughCasesInSwitch": true,
+    "noErrorTruncation": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "inlineSources": true,
+    "types": [
+      "node"
+    ],
+  },
+  "exclude": [
+    "**/node_modules",
+    "**/build",
+    "**/docs",
+    "**/logs",
+    "**/Exclude",
+    "**/playground"
+  ],
+  "typeRoots": [
+    "node_modules/@types"
+  ],
+  "include": [
+    "./**/*.ts"
+  ],
+  "files": [
+    "package.json",
+    "./package-lock.json"
+  ],
+  "ts-node": {
+    "files": true
+  }
+}

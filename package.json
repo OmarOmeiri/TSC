@@ -1,0 +1,27 @@
+{
+  "name": "tsc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "devlogger": "github:OmarOmeiri/DevLogger",
+    "glob": "^8.0.3",
+    "ts-morph": "^16.0.0",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/node": "^18.8.2",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
+    "eslint": "^8.24.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-typescript": "^3.5.1",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}
