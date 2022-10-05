@@ -128,7 +128,7 @@ export default class TSCEmitter {
         }
       });
       logger.log(`\x1b[4mTotal errors found\x1b[0m: \x1b[1m\x1b[31m${errors.length}\x1b[0m\n`);
-      logger.log(`\nPlease fix these errors or run this script with \x1b[1m\x1b[33m"-- force"${logger.defaultStyle[0]} at your own risk`);
+      logger.log(`\nPlease fix these errors or run this script with \x1b[1m\x1b[33m"-- force"${logger.defaultStyle} at your own risk`);
       process.exit(1);
     }
   }
@@ -136,6 +136,7 @@ export default class TSCEmitter {
   async emit(beforeEmit: (file: SourceFile) => SourceFileEmitOptions | undefined = () => (undefined)) {
     let i = 1;
     const filesLength = this.project.getSourceFiles().length;
+    console.log('logger.defaultStyle: ', logger.defaultStyle);
     for await (const file of this.project.getSourceFiles()) {
       const pct = Math.min(Math.round((i / filesLength) * 100), 100);
       const imports = file.getImportDeclarations();
@@ -143,7 +144,7 @@ export default class TSCEmitter {
       logger.writeSameLine(
         'Transpiling files:'
         // eslint-disable-next-line no-useless-escape
-        + ` ${logger.style.bold.magentaBright(i.toString())}${logger.defaultStyle[0]}`
+        + ` ${logger.style.bold.magentaBright(i.toString())}${logger.defaultStyle}`
         + ` of ${logger.style.bold.magentaBright(filesLength.toString())} [${logger.style.yellow.bold(`${pct}%`)}]`,
       );
 
