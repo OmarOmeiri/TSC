@@ -125,18 +125,19 @@ export default class TSCEmitter {
       logger.log('\x1b[35mCustom TS error checking: \x1b[32mpassed\x1b[0m ✔\n');
     } else {
       errors.forEach((e) => {
+        const errorMsg = typeof e.text === 'string' ? e.text : JSON.stringify(e.text.compilerObject);
         if (e.category === DiagnosticCategory.Warning) {
           logger.warn(`${logger.style.cyan.bold(`${e.fileName}`)}`
           + ` ${logger.style.yellow(e.loc)}`
-          + ` ${logger.style.gray.bold(`TS${e.code}`)}\x1b[0m\n${e.text}\n`);
+          + ` ${logger.style.gray.bold(`TS${e.code}`)}\x1b[0m\n${errorMsg}\n`);
         } else if (e.category === DiagnosticCategory.Message || e.category === DiagnosticCategory.Suggestion) {
           logger.info(`${logger.style.cyan.bold(`${e.fileName}`)}`
           + ` ${logger.style.yellow(e.loc)}`
-          + ` ${logger.style.gray.bold(`TS${e.code}`)}${e.text}\n`);
+          + ` ${logger.style.gray.bold(`TS${e.code}`)} ${errorMsg}\n`);
         } else {
           logger.error(`${logger.style.cyan.bold(`${e.fileName}`)}`
           + ` ${logger.style.yellow(e.loc)}`
-          + ` ${logger.style.gray.bold(`TS${e.code}`)}${e.text}\n`);
+          + ` ${logger.style.gray.bold(`TS${e.code}`)} ${errorMsg}\n`);
         }
       });
       logger.log(`\x1b[4mTotal errors found\x1b[0m: \x1b[1m\x1b[31m${errors.length}\x1b[0m\n`);
