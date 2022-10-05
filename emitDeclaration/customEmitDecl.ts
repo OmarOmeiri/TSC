@@ -2,6 +2,7 @@ import {
   DiagnosticCategory,
   Project,
   SourceFile,
+  SourceFileEmitOptions,
 } from 'ts-morph';
 import ts from 'typescript';
 import glob from 'glob';
@@ -19,7 +20,7 @@ export type EmitOptions = {
   filesPattern?: string,
 }
 
-export default class EmitDeclaration {
+export default class TSCEmitter {
   private rootPath: string;
   private startTime: number;
   private project: Project;
@@ -51,12 +52,16 @@ export default class EmitDeclaration {
       logger.error('No `outDir` in tsconfig.json');
       process.exit(1);
     }
+
+    this.preEmitCheckErrors();
   }
 
   private async saveTime(time: number, filesLength: number) {
     let times: Times = [];
     try {
+      console.log('TimesJson: ', TimesJson);
       times = JSON.parse((await readFile(TimesJson)).toString()) as Times;
+      console.log('times: ', times);
     } catch {
       times = [];
     }
@@ -128,7 +133,7 @@ export default class EmitDeclaration {
     }
   }
 
-  async emit() {
+  async emit(beforeEmit: (file: SourceFile) => SourceFileEmitOptions | undefined = () => (undefined)) {
     let i = 1;
     const filesLength = this.project.getSourceFiles().length;
     for await (const file of this.project.getSourceFiles()) {
@@ -138,11 +143,11 @@ export default class EmitDeclaration {
       logger.writeSameLine(
         'Transpiling files:'
         // eslint-disable-next-line no-useless-escape
-        + ` ${logger.style.bold.magentaBright(i.toString())}${logger.defaultStyle[0]}\s`
+        + ` ${logger.style.bold.magentaBright(i.toString())}${logger.defaultStyle[0]}`
         + ` of ${logger.style.bold.magentaBright(filesLength.toString())} [${logger.style.yellow.bold(`${pct}%`)}]`,
       );
 
-      imports.forEach(async (iDecl) => {
+      for (const iDecl of imports) {
         const importedSourceFile = iDecl.getModuleSpecifierSourceFile();
         if (importedSourceFile && !this.isImportALib(importedSourceFile)) {
           const importedPath = importedSourceFile?.getFilePath();
@@ -151,10 +156,15 @@ export default class EmitDeclaration {
           const moduleSpec = iDecl.getModuleSpecifier();
           moduleSpec.replaceWithText(`'${rel}'`);
         }
-      });
-      file.emit({
+      }
+
+      const baseEmitOptions: SourceFileEmitOptions = {
         emitOnlyDtsFiles: true,
-      });
+      };
+
+      const options = beforeEmit(file) || baseEmitOptions;
+
+      file.emit(options);
       i = Math.min(i + 1, filesLength);
     }
 
