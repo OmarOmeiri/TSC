@@ -2,9 +2,13 @@
   "name": "tsc",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "lint": "eslint --fix .",
+    "prepublishOnly" : "npm run lint",
+    "prepare": "npm run build"
   },
   "author": "",
   "license": "ISC",
