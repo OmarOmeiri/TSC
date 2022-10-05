@@ -20,6 +20,11 @@ export type EmitOptions = {
   filesPattern?: string,
 }
 
+export {
+  SourceFile,
+  SourceFileEmitOptions,
+} from 'ts-morph';
+
 export default class TSCEmitter {
   private rootPath: string;
   private startTime: number;
