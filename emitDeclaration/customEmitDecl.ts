@@ -17,6 +17,7 @@ export type EmitOptions = {
   rootPath?: string;
   tsconfigName: string;
   includeExtraFiles?: string[]
+  excludePatterns?: RegExp[]
   filesPattern?: string,
 }
 
@@ -33,16 +34,20 @@ export default class TSCEmitter {
     rootPath = process.cwd(),
     tsconfigName,
     includeExtraFiles = [],
+    excludePatterns = [],
     filesPattern = `${rootPath.replace(/\/$/, '')}/!(node_modules)/!(tests)/**/*.ts`,
   }: EmitOptions) {
     this.rootPath = rootPath;
+    console.log('this.rootPath: ', this.rootPath);
     this.startTime = Date.now();
     const tsconfigPath = ts.findConfigFile(rootPath, ts.sys.fileExists, tsconfigName);
     if (!tsconfigPath) {
       logger.error('No tsconfig.json found!');
       process.exit(1);
     }
-    const files = glob.sync(filesPattern);
+    const files = glob.sync(filesPattern)
+      .filter((f) => excludePatterns.some((re) => re.test(f)));
+
     includeExtraFiles.forEach((f) => files.push(f));
     this.project = new Project({
       tsConfigFilePath: tsconfigPath,
