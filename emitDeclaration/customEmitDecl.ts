@@ -46,6 +46,7 @@ export default class TSCEmitter {
       process.exit(1);
     }
     let files = glob.sync(filesPattern);
+    console.log('files: ', JSON.stringify(files, null, 2));
     console.log('files: ', files.length);
 
     for (const f of files) {
