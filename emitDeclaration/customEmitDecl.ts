@@ -45,8 +45,10 @@ export default class TSCEmitter {
       logger.error('No tsconfig.json found!');
       process.exit(1);
     }
-    const files = glob.sync(filesPattern)
-      .filter((f) => excludePatterns.some((re) => re.test(f)));
+    let files = glob.sync(filesPattern);
+    console.log('files: ', files.length);
+    files = files.filter((f) => excludePatterns.some((re) => re.test(f)));
+    console.log('files: ', files);
 
     includeExtraFiles.forEach((f) => files.push(f));
     this.project = new Project({
