@@ -138,7 +138,7 @@ export default class TSCEmitter {
     }
   }
 
-  async emit(beforeEmit: (file: SourceFile) => SourceFileEmitOptions | undefined = () => (undefined)) {
+  async emit(beforeEmit: (file: SourceFile) => SourceFileEmitOptions | void = () => {}) {
     let i = 1;
     const filesLength = this.project.getSourceFiles().length;
     console.log('logger.defaultStyle: ', logger.defaultStyle);
