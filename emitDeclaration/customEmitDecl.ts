@@ -47,8 +47,8 @@ export default class TSCEmitter {
     }
     let files = glob.sync(filesPattern);
     console.log('files: ', files.length);
-    files = files.filter((f) => excludePatterns.some((re) => re.test(f)));
-    console.log('files: ', files);
+    files = files.filter((f) => !excludePatterns.some((re) => re.test(f)));
+    console.log('files: ', files.length);
 
     includeExtraFiles.forEach((f) => files.push(f));
     this.project = new Project({
